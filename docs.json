@@ -75,7 +75,7 @@
   "navbar": {
     "links": [
       {
-        "label": "Dashboard",
+        "label": "Cor Admin",
         "href": "https://app.coragents.ai"
       }
     ]

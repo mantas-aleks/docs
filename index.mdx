@@ -1,23 +1,42 @@
 ---
 title: "Welcome to Cor"
-description: "Cor adds Obi, an in-app onboarding agent, to your product — and gives you APIs to feed it context and pull reports."
+description: "Obi is an AI agent that guides every customer through your product. These docs show you how to add it and connect it to your stack."
 ---
 
 ## What is Cor?
 
-Cor helps your users learn your product. You add a small snippet to your app, and **Obi** — the Cor agent — appears as a widget. Obi walks users through onboarding plans, answers questions, and runs guided sessions.
+Cor puts **Obi** in your product. Obi is an AI agent that works alongside every customer. It learns their goals, builds a personalized plan, then sees their screen to guide them and get things done — so customers adopt your product instead of getting stuck and churning.
 
-Cor has three parts:
+These are the developer docs. They cover how to add Obi to your app, tell it about your customers, and pull the data back out.
+
+Cor has three building blocks:
 
 <CardGroup cols={3}>
   <Card title="Obi SDK" icon="code" href="/sdk/installation">
-    A JavaScript snippet that puts the Obi widget in your app and tells it who the user is.
+    Embed Obi in your app with one snippet, and tell it who the customer is.
   </Card>
   <Card title="Session Reporting API" icon="chart-line" href="/api-reference/introduction">
-    Pull session metadata, summaries, and full transcripts for reporting.
+    Pull session data, summaries, and full transcripts for every customer.
   </Card>
   <Card title="User Context API" icon="user" href="/api-reference/introduction">
-    Push extra context about a user so Obi can personalise their sessions.
+    Push what you know about a customer so Obi tailors its guidance.
+  </Card>
+</CardGroup>
+
+## What Obi does
+
+<CardGroup cols={2}>
+  <Card title="Understands goals" icon="bullseye">
+    Learns what each customer is trying to do and tailors the guidance to them.
+  </Card>
+  <Card title="Guides on their screen" icon="arrow-pointer">
+    Sees the page the customer is on and walks them through it, step by step.
+  </Card>
+  <Card title="Gets things done" icon="bolt">
+    Executes actions when needed — not just telling customers what to click.
+  </Card>
+  <Card title="Reports back" icon="chart-line">
+    Every session produces a summary and transcript you can pull through the API.
   </Card>
 </CardGroup>
 
@@ -25,16 +44,16 @@ Cor has three parts:
 
 <Steps>
   <Step title="Install the SDK">
-    Add the Obi snippet to your app. The widget loads on every page.
+    Add Obi to your app. The widget loads on every page.
   </Step>
-  <Step title="Identify the user">
-    Tell Obi who the signed-in user is. This powers targeting, personalisation, and reporting.
+  <Step title="Identify the customer">
+    Tell Obi who the signed-in user is. This powers personalization, targeting, and reporting.
   </Step>
-  <Step title="Run sessions">
-    Obi guides users through onboarding plans — automatically or when you start one in code.
+  <Step title="Obi guides and acts">
+    Obi runs personalized sessions — guiding the customer and getting things done.
   </Step>
   <Step title="Report and enrich">
-    Use the APIs to pull transcripts and summaries, and to push extra context back to Obi.
+    Pull transcripts and summaries through the API, and push extra context back to Obi.
   </Step>
 </Steps>
 
@@ -42,7 +61,7 @@ Cor has three parts:
 
 <CardGroup cols={2}>
   <Card title="Quickstart" icon="rocket" href="/quickstart">
-    Go from zero to a working widget and your first report.
+    Go from zero to a working agent and your first report.
   </Card>
   <Card title="Authentication" icon="key" href="/authentication">
     Understand the three kinds of credentials and where to use each.
@@ -56,5 +75,5 @@ Cor has three parts:
 </CardGroup>
 
 <Note>
-  **Naming:** *Cor* is the product. *Obi* is the agent that talks to your users. In code you will see symbols like `ObiSDK` and `obiWidgetConfig` — that is the same Obi agent.
+  **Naming:** *Cor* is the platform. *Obi* is the agent your customers talk to. In code you will see symbols like `ObiSDK` and `obiWidgetConfig` — that is the same Obi agent.
 </Note>
