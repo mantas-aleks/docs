@@ -1,0 +1,64 @@
+---
+title: "Identifying users"
+description: "Tell Obi who the signed-in user is, so it can target, personalise, and report."
+---
+
+Send user information so Obi knows who it is talking to. This powers reporting, segmentation, targeting, and personalisation. Without it, you only get basic session-level reporting.
+
+## Send user information
+
+Pass a `user` object to the `update` command:
+
+```js
+window.ObiSDK("update", {
+  isActive: true,
+  user: {
+    id: "user-123",
+    email: "user@example.com",
+    firstName: "John",
+    lastName: "Doe",
+    company: "ACME",
+    role: "admin",
+    plan: "enterprise",
+    location: "AU",
+    department: "acquisition",
+    language: "en",
+    other: "high profile client",
+  },
+});
+```
+
+Any field is allowed in the `user` object. Fields not in the recommended list are kept as metadata for the agent.
+
+## Recommended fields
+
+Fill in as many of these as you can. They unlock off-the-shelf targeting and configuration for the agent.
+
+```ts
+type UserType = {
+  id?: string;        // any internal identifier for the user
+  userId?: string;    // synonym for "id"
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  company?: string;
+  role?: string;
+  plan?: string;      // the user's current plan
+  location?: string;
+  department?: string;
+  language?: string;
+  [key: string]: any; // any other field is kept as metadata
+};
+```
+
+<Tip>
+  The more recommended fields you send, the less per-customer configuration the agent needs. `email` is especially useful — it is also how the [User Context API](/api-reference/introduction) matches an onboardee.
+</Tip>
+
+## When to send it
+
+Send user information as soon as you know who the user is — normally right after login. See [Controlling sessions](/sdk/sessions#start-obi-after-login) for the recommended login flow.
+
+## Server-side context
+
+The `user` object is set in the browser. To attach context from your backend instead — or in addition — use the [User Context API](/api-reference/introduction), which matches the onboardee by email.

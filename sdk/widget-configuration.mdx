@@ -1,0 +1,45 @@
+---
+title: "Widget configuration"
+description: "Control where the Obi widget sits and whether it is shown."
+---
+
+Configure the widget through `window.obiWidgetConfig`. Set it before the loader runs, and update it later at any time with the `update` command.
+
+## Options
+
+```js
+window.obiWidgetConfig = {
+  // Required
+  apiKey: "your-api-key",
+
+  // Appearance
+  position: "bottom-right", // "bottom-left" | "bottom" | "bottom-right"
+
+  // Visibility
+  isActive: true,           // show or hide the widget
+};
+```
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `apiKey` | `string` | — | **Required.** Your SDK API key. |
+| `position` | `string` | `"bottom-right"` | Where the widget sits. One of `bottom-left`, `bottom`, `bottom-right`. |
+| `isActive` | `boolean` | `true` | Whether the widget is shown. Set to `false` to start hidden. |
+
+<Note>
+  Most apps should start with the widget hidden (`isActive: false`) and turn it on after login. See [Controlling sessions](/sdk/sessions#start-obi-after-login).
+</Note>
+
+## Update at runtime
+
+You do not have to set everything up front. Change any option later with `update`:
+
+```js
+// Move the widget and show it
+window.ObiSDK("update", {
+  position: "bottom-left",
+  isActive: true,
+});
+```
+
+Values you pass to `update` are merged into the current configuration.

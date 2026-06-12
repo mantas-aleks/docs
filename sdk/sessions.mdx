@@ -1,0 +1,71 @@
+---
+title: "Controlling sessions"
+description: "Show and hide Obi, open its menu, and start or stop onboarding sessions from your code."
+---
+
+You can drive the widget from your own UI: show it after login, open its menu from a button, and start or stop specific onboarding plans.
+
+## Start Obi after login
+
+Most apps should start with the widget hidden and turn it on once the user is signed in. Enable it and pass user information in the same call:
+
+```js
+// In your login handler
+function handleLogin(userData) {
+  // Your existing login logic...
+
+  if (window.ObiSDK) {
+    window.ObiSDK("update", {
+      isActive: true,
+      user: {
+        id: userData.id,
+        email: userData.email,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        company: userData.company,
+        plan: userData.subscription.plan,
+      },
+    });
+  }
+}
+```
+
+<Tip>We recommend hiding Obi on your login page and only enabling it after authentication.</Tip>
+
+## Show and hide
+
+Toggle the widget at any time:
+
+```js
+// Show
+window.ObiSDK("update", { isActive: true });
+
+// Hide
+window.ObiSDK("update", { isActive: false });
+```
+
+## Open the menu
+
+To open Obi's menu from your own UI element — for example a "Help" button:
+
+```js
+window.ObiSDK("update", { showMenu: true });
+```
+
+## Start and stop a session
+
+Start a specific onboarding plan by passing its UUID. This begins a new session for that plan.
+
+```js
+// Start the plan with this UUID
+window.ObiSDK("startSession", {
+  planUuid: "<uuid-of-plan-to-start>",
+});
+
+// Stop the current session
+window.ObiSDK("stopSession");
+```
+
+<Note>
+  A **plan** is a guided onboarding flow (sometimes called a course). Get plan UUIDs from your Cor dashboard. See [Core concepts](/concepts).
+</Note>

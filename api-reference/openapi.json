@@ -1,0 +1,450 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Cor API",
+    "version": "1.0.0",
+    "description": "REST APIs for Cor. Pull session reports and transcripts, and push extra context about an onboardee for the Obi agent to use."
+  },
+  "servers": [
+    {
+      "url": "https://app.coragents.ai",
+      "description": "Production"
+    }
+  ],
+  "security": [
+    {
+      "TokenAuth": []
+    }
+  ],
+  "paths": {
+    "/api/sessions/reporting": {
+      "get": {
+        "operationId": "listSessions",
+        "summary": "List sessions",
+        "description": "Returns a paginated list of sessions with metadata and summary data. Transcript content is **not** included here — use the transcript endpoints to download transcript files.",
+        "tags": ["Session Reporting"],
+        "parameters": [
+          {
+            "name": "onboardee_uuid",
+            "in": "query",
+            "description": "Filter by onboardee UUID.",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "plan_uuid",
+            "in": "query",
+            "description": "Filter by onboarding plan UUID.",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "started_at_gt",
+            "in": "query",
+            "description": "Only sessions started after this time (RFC3339).",
+            "required": false,
+            "schema": { "type": "string", "format": "date-time" }
+          },
+          {
+            "name": "started_at_lt",
+            "in": "query",
+            "description": "Only sessions started before this time (RFC3339).",
+            "required": false,
+            "schema": { "type": "string", "format": "date-time" }
+          },
+          {
+            "name": "finished_at_gt",
+            "in": "query",
+            "description": "Only sessions finished after this time (RFC3339).",
+            "required": false,
+            "schema": { "type": "string", "format": "date-time" }
+          },
+          {
+            "name": "finished_at_lt",
+            "in": "query",
+            "description": "Only sessions finished before this time (RFC3339).",
+            "required": false,
+            "schema": { "type": "string", "format": "date-time" }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number (1-based).",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "default": 1 }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Items per page.",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "maximum": 100, "default": 25 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A page of sessions.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SessionListResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RateLimitError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sessions/reporting/transcripts/{id}": {
+      "get": {
+        "operationId": "getTranscriptUrl",
+        "summary": "Get transcript download URL",
+        "description": "Returns a presigned download URL for one session's transcript. The URL points to a JSON file with the full conversation transcript and is valid for **1 hour** after it is generated.",
+        "tags": ["Session Reporting"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Session UUID.",
+            "required": true,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A presigned transcript URL.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TranscriptUrl" }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "404": {
+            "description": "Transcript not available (private session, missing transcript, or unknown session).",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RateLimitError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sessions/reporting/transcripts": {
+      "post": {
+        "operationId": "batchTranscriptUrls",
+        "summary": "Batch transcript download URLs",
+        "description": "Returns presigned download URLs for up to 50 session transcripts in one request. Each URL is valid for 1 hour. Partial failures are reported per session — a failing session does not block the rest of the batch.",
+        "tags": ["Session Reporting"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/BatchTranscriptRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Per-session transcript URLs.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BatchTranscriptResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (empty array, more than 50 UUIDs, or an invalid UUID).",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RateLimitError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/onboardee/context/": {
+      "post": {
+        "operationId": "pushOnboardeeContext",
+        "summary": "Push onboardee context",
+        "description": "Attaches extra context to an onboardee, identified by email. The Obi agent uses this context during the onboardee's sessions for personalisation and targeting. The `context` object is free-form — send any keys you want the agent to know about.\n\nThis endpoint is authenticated with an onboardee-context token, which may be different from your reporting token. Contact your account manager if you are unsure which token to use.",
+        "tags": ["User Context"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/OnboardeeContextRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Context stored.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/OnboardeeContextResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body (e.g. missing email).",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "TokenAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization",
+        "description": "API token using the `Token` scheme. Send the full header value as `Token <your-api-token>`. Tokens are provisioned by the Cor team."
+      }
+    },
+    "schemas": {
+      "Plan": {
+        "type": "object",
+        "description": "An onboarding plan (sometimes called a course).",
+        "properties": {
+          "uuid": { "type": "string", "format": "uuid" },
+          "name": { "type": "string", "example": "Getting Started" }
+        }
+      },
+      "Onboardee": {
+        "type": "object",
+        "description": "The end user being onboarded.",
+        "properties": {
+          "uuid": { "type": "string", "format": "uuid" },
+          "name": { "type": "string", "example": "Jane Smith" },
+          "email": { "type": "string", "format": "email", "example": "jane@example.com" },
+          "company": { "type": "string", "example": "Acme Corp" }
+        }
+      },
+      "Session": {
+        "type": "object",
+        "properties": {
+          "uuid": { "type": "string", "format": "uuid" },
+          "status": {
+            "type": "string",
+            "description": "Lifecycle state of the session.",
+            "enum": ["completed", "in_progress", "abandoned"],
+            "example": "completed"
+          },
+          "started_at": { "type": "string", "format": "date-time" },
+          "finished_at": { "type": "string", "format": "date-time", "nullable": true },
+          "duration_minutes": { "type": "integer", "example": 45 },
+          "plan": { "$ref": "#/components/schemas/Plan" },
+          "onboardee": { "$ref": "#/components/schemas/Onboardee" },
+          "summary": {
+            "type": "string",
+            "example": "Completed onboarding walkthrough covering dashboard and settings."
+          },
+          "feedback": {
+            "type": "string",
+            "nullable": true,
+            "example": "User found the dashboard navigation intuitive."
+          }
+        }
+      },
+      "SessionListResponse": {
+        "type": "object",
+        "properties": {
+          "sessions": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Session" }
+          },
+          "total": { "type": "integer", "example": 142 },
+          "page": { "type": "integer", "example": 1 },
+          "limit": { "type": "integer", "example": 25 },
+          "total_pages": { "type": "integer", "example": 6 }
+        }
+      },
+      "TranscriptUrl": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Presigned URL to a JSON transcript file. Valid for 1 hour.",
+            "example": "https://s3.amazonaws.com/.../transcript.json?X-Amz-..."
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-06-01T12:30:00Z"
+          }
+        }
+      },
+      "BatchTranscriptRequest": {
+        "type": "object",
+        "required": ["session_uuids"],
+        "properties": {
+          "session_uuids": {
+            "type": "array",
+            "description": "Session UUIDs to fetch transcripts for. Minimum 1, maximum 50. All must be valid UUIDs.",
+            "minItems": 1,
+            "maxItems": 50,
+            "items": { "type": "string", "format": "uuid" },
+            "example": [
+              "123e4567-e89b-12d3-a456-426614174000",
+              "223e4567-e89b-12d3-a456-426614174001"
+            ]
+          }
+        }
+      },
+      "BatchTranscriptResponse": {
+        "type": "object",
+        "properties": {
+          "transcripts": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/BatchTranscriptItem" }
+          }
+        }
+      },
+      "BatchTranscriptItem": {
+        "type": "object",
+        "properties": {
+          "session_uuid": { "type": "string", "format": "uuid" },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true,
+            "description": "Presigned transcript URL, or null when the transcript is unavailable."
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "error": {
+            "type": "string",
+            "nullable": true,
+            "description": "Present only when this session failed.",
+            "example": "transcript not available"
+          }
+        }
+      },
+      "OnboardeeContextRequest": {
+        "type": "object",
+        "required": ["email", "context"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email of the onboardee to attach context to.",
+            "example": "onboardee-email@example.com"
+          },
+          "context": {
+            "type": "object",
+            "description": "Free-form context for the agent. Any keys are allowed.",
+            "additionalProperties": true,
+            "example": {
+              "summary": "Any information.",
+              "foo": "bar"
+            }
+          }
+        }
+      },
+      "OnboardeeContextResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean", "example": true }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string", "example": "not_found" },
+              "message": { "type": "string", "example": "Transcript not available." }
+            }
+          }
+        }
+      },
+      "RateLimitError": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string", "example": "rate_limited" },
+              "message": {
+                "type": "string",
+                "example": "Too many requests. Please wait before trying again."
+              },
+              "details": {
+                "type": "object",
+                "properties": {
+                  "retry_after_seconds": { "type": "integer", "example": 42 }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

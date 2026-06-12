@@ -1,47 +1,73 @@
 ---
 title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+description: "Install the Obi widget, identify a user, run a session, and pull your first report."
 ---
 
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
+This guide takes you through the whole loop: add the widget, tell it who the user is, start a session, and read the results.
 
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
+<Note>
+  You need an **SDK API key** for the widget and an **API token** for the reporting endpoints. Both come from the Cor team — see [Authentication](/authentication).
+</Note>
 
-## Prerequisites
+## 1. Install the widget
 
-Before you begin, you must have:
+Add this snippet to your app's HTML, ideally just before the closing `</body>` tag. You can also add it through a tag manager like Google Tag Manager.
 
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
+```html
+<script>
+  // Configure Obi.
+  window.obiWidgetConfig = {
+    apiKey: "your-api-key",
+  };
 
-## Get started
+  // Load Obi.
+  !(function(){"use strict";var t=window;!(function(){var n,o;try{n=new URLSearchParams(location.search),o={},n.forEach((function(t,n){o[n]=t})),Object.keys(o).length&&localStorage.setItem("obi-url-params",JSON.stringify(o))}catch(t){}t.ObiSDK=t.ObiSDK||function(){return t.ObiSDK.q=t.ObiSDK.q||[],t.ObiSDK.q.push(arguments)},t.ObiSDK("update",t.obiWidgetConfig||{}),fetch("https://registry.npmjs.org/obi-sdk/latest").then((function(t){return t.json()})).then((function(t){return t.version})).catch((function(){return"latest"})).then((function(t){var n=document.createElement("script");n.defer=!0,n.src="https://unpkg.com/obi-sdk@"+t+"/dist/obi-sdk.standalone.iife.js",document.head.appendChild(n)}))})()})();
+</script>
+```
 
-<Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
+The widget now loads on every page. We recommend hiding it on your login page — see [User management](/sdk/sessions#start-obi-after-login).
 
-    ```bash
-    npm install your-package
-    ```
-  </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
+## 2. Identify the user
 
-    ```bash
-    your-cli init
-    ```
-  </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
+After a user logs in, tell Obi who they are. This drives targeting, personalisation, and reporting.
 
-    ```bash
-    your-cli start
-    ```
-  </Step>
-</Steps>
+```js
+window.ObiSDK("update", {
+  isActive: true,
+  user: {
+    id: "user-123",
+    email: "user@example.com",
+    firstName: "John",
+    lastName: "Doe",
+    company: "ACME",
+    plan: "enterprise",
+  },
+});
+```
 
-<Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
+See [Identifying users](/sdk/identifying-users) for the full list of fields.
 
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
-</Tip>
+## 3. Start a session (optional)
+
+Obi can start sessions automatically. To start one yourself — for example from a "Start onboarding" button — pass the plan's UUID:
+
+```js
+window.ObiSDK("startSession", {
+  planUuid: "<uuid-of-plan-to-start>",
+});
+```
+
+## 4. Pull a report
+
+Once a user has run a session, fetch it from the Session Reporting API. This call is server-side and uses your **API token**.
+
+```bash
+curl -s -H "Authorization: Token <your-api-token>" \
+  "https://app.coragents.ai/api/sessions/reporting?limit=5"
+```
+
+You get session metadata and a summary for each session. To download the full transcript, use the [transcript endpoints](/api-reference/introduction).
+
+<Check>
+  That's the full loop. Next, read [Core concepts](/concepts) to learn the terms, or jump into the [API reference](/api-reference/introduction).
+</Check>

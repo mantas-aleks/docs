@@ -1,0 +1,84 @@
+---
+title: "API overview"
+description: "Base URL, authentication, errors, and rate limits for the Cor APIs."
+---
+
+Cor has two REST APIs:
+
+<CardGroup cols={2}>
+  <Card title="Session Reporting" icon="chart-line" href="/api-reference/session-reporting/list-sessions">
+    List sessions and download transcripts for reporting.
+  </Card>
+  <Card title="User Context" icon="user" href="/api-reference/user-context/push-onboardee-context">
+    Push extra context about an onboardee so Obi can personalise sessions.
+  </Card>
+</CardGroup>
+
+Both are server-side APIs. Do not call them from the browser — that would expose your token.
+
+## Base URL
+
+```
+https://app.coragents.ai
+```
+
+## Authentication
+
+Every request must include an `Authorization` header using the `Token` scheme:
+
+```
+Authorization: Token <your-api-token>
+```
+
+Tokens are provisioned by the Cor team. The reporting token and the onboardee-context token may be different — see [Authentication](/authentication).
+
+```bash
+curl -s -H "Authorization: Token <your-api-token>" \
+  "https://app.coragents.ai/api/sessions/reporting?limit=5"
+```
+
+<Tip>
+  In the **playground** on each endpoint page, paste your full header value — including the word `Token` — into the Authorization field.
+</Tip>
+
+## Errors
+
+Errors return a JSON body with an `error` object:
+
+```json
+{
+  "error": {
+    "code": "not_found",
+    "message": "Transcript not available."
+  }
+}
+```
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid request (bad body or parameter). |
+| `401` | Missing or invalid token. |
+| `404` | Resource not found or not available. |
+| `429` | Rate limit exceeded. |
+
+## Rate limiting
+
+The reporting endpoints share an IP-based limit of **30 requests per 60 seconds**. Over the limit, you get `429` with a `retry_after_seconds` value:
+
+```json
+{
+  "error": {
+    "code": "rate_limited",
+    "message": "Too many requests. Please wait before trying again.",
+    "details": {
+      "retry_after_seconds": 42
+    }
+  }
+}
+```
+
+Wait `retry_after_seconds` before retrying.
+
+## Pagination
+
+`GET /api/sessions/reporting` is paginated. Use `page` and `limit` (max 100), and read `total_pages` from the response to know when to stop. Loop until `page` reaches `total_pages`.

@@ -1,20 +1,60 @@
 ---
-title: "Introduction"
-description: "Welcome to your project"
+title: "Welcome to Cor"
+description: "Cor adds Obi, an in-app onboarding agent, to your product — and gives you APIs to feed it context and pull reports."
 ---
 
-Write a short description of your product here. What it does, who it's for, and what they can accomplish with it.
+## What is Cor?
 
-<Tip>
-  Ready to make this your own? Start by editing this page. Update your `docs.json` file to customize your site. Then fill out the [Quickstart](/quickstart) page.
-</Tip>
+Cor helps your users learn your product. You add a small snippet to your app, and **Obi** — the Cor agent — appears as a widget. Obi walks users through onboarding plans, answers questions, and runs guided sessions.
 
-<Card title="Quickstart" icon="rocket" href="/quickstart">
-  This card links to the quickstart page in your project.
-</Card>
-<Card title="Components" icon="puzzle-piece" href="https://mintlify.com/docs/components">
-  Add cards, callouts, steps, tabs, and more to design and structure your pages.
-</Card>
-<Card title="Settings" icon="gear" href="https://mintlify.com/docs/organize/settings">
-  Set your site name, branding, and navigation in the `docs.json` file.
-</Card>
+Cor has three parts:
+
+<CardGroup cols={3}>
+  <Card title="Obi SDK" icon="code" href="/sdk/installation">
+    A JavaScript snippet that puts the Obi widget in your app and tells it who the user is.
+  </Card>
+  <Card title="Session Reporting API" icon="chart-line" href="/api-reference/introduction">
+    Pull session metadata, summaries, and full transcripts for reporting.
+  </Card>
+  <Card title="User Context API" icon="user" href="/api-reference/introduction">
+    Push extra context about a user so Obi can personalise their sessions.
+  </Card>
+</CardGroup>
+
+## How the pieces fit together
+
+<Steps>
+  <Step title="Install the SDK">
+    Add the Obi snippet to your app. The widget loads on every page.
+  </Step>
+  <Step title="Identify the user">
+    Tell Obi who the signed-in user is. This powers targeting, personalisation, and reporting.
+  </Step>
+  <Step title="Run sessions">
+    Obi guides users through onboarding plans — automatically or when you start one in code.
+  </Step>
+  <Step title="Report and enrich">
+    Use the APIs to pull transcripts and summaries, and to push extra context back to Obi.
+  </Step>
+</Steps>
+
+## Get started
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Go from zero to a working widget and your first report.
+  </Card>
+  <Card title="Authentication" icon="key" href="/authentication">
+    Understand the three kinds of credentials and where to use each.
+  </Card>
+  <Card title="Core concepts" icon="book-open" href="/concepts">
+    Learn the words we use: onboardee, plan, session, transcript.
+  </Card>
+  <Card title="API reference" icon="terminal" href="/api-reference/introduction">
+    Try every endpoint live in the playground.
+  </Card>
+</CardGroup>
+
+<Note>
+  **Naming:** *Cor* is the product. *Obi* is the agent that talks to your users. In code you will see symbols like `ObiSDK` and `obiWidgetConfig` — that is the same Obi agent.
+</Note>

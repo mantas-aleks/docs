@@ -1,0 +1,68 @@
+---
+title: "SDK reference"
+description: "Every Obi SDK command in one place."
+---
+
+You drive the SDK by calling the global `window.ObiSDK` function with a command name and a payload:
+
+```js
+window.ObiSDK(command, payload);
+```
+
+Calls are queued, so it is safe to call commands before the widget finishes loading.
+
+## Commands
+
+### `update`
+
+Merge configuration into the widget. Use it to set the user, change visibility, move the widget, or open the menu.
+
+```js
+window.ObiSDK("update", {
+  isActive: true,
+  position: "bottom-right",
+  showMenu: false,
+  user: { id: "user-123", email: "user@example.com" },
+});
+```
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `isActive` | `boolean` | Show or hide the widget. |
+| `position` | `string` | `bottom-left`, `bottom`, or `bottom-right`. |
+| `showMenu` | `boolean` | Open Obi's menu. |
+| `user` | `object` | User information. See [Identifying users](/sdk/identifying-users). |
+
+### `startSession`
+
+Start a new session for a specific plan.
+
+```js
+window.ObiSDK("startSession", {
+  planUuid: "<uuid-of-plan-to-start>",
+});
+```
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `planUuid` | `string` | UUID of the plan to start. **Required.** |
+
+### `stopSession`
+
+Stop the current session. Takes no payload.
+
+```js
+window.ObiSDK("stopSession");
+```
+
+## Configuration object
+
+Set `window.obiWidgetConfig` before the loader runs to configure the widget at load time. See [Widget configuration](/sdk/widget-configuration) for all options.
+
+```js
+window.obiWidgetConfig = {
+  apiKey: "your-api-key",
+  position: "bottom-right",
+  isActive: true,
+};
+```

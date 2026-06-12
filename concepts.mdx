@@ -1,0 +1,42 @@
+---
+title: "Core concepts"
+description: "The handful of terms you need to know to work with Cor."
+---
+
+Cor uses a small set of words. Learn these and the rest of the docs will read easily.
+
+<ResponseField name="Obi" type="agent">
+  The Cor agent. Obi is the widget your users talk to. It guides them through onboarding and answers their questions. In code you will see it as `ObiSDK` and `obiWidgetConfig`.
+</ResponseField>
+
+<ResponseField name="Onboardee" type="person">
+  An end user who is being onboarded — one of your customers. In the SDK you describe an onboardee with the `user` object. In the APIs an onboardee has its own `onboardee_uuid` and is also identified by email.
+</ResponseField>
+
+<ResponseField name="Plan" type="flow">
+  A guided onboarding flow. A plan has a `uuid` and a name like "Getting Started". You can start a specific plan from code with `startSession` and its `planUuid`.
+
+  <Info>You may also see a plan called a **course**. They mean the same thing. We use **plan** everywhere in these docs.</Info>
+</ResponseField>
+
+<ResponseField name="Session" type="event">
+  One run of a plan by an onboardee. A session has a status (for example `completed`), a start and finish time, a duration, a summary, and optional feedback. Sessions are what you list and report on through the Session Reporting API.
+</ResponseField>
+
+<ResponseField name="Transcript" type="file">
+  The full conversation from a session, stored as a JSON file. You do not get the transcript inline — you request a short-lived download URL from the transcript endpoints, then fetch the file. URLs are valid for 1 hour.
+</ResponseField>
+
+<ResponseField name="Context" type="object">
+  Extra information about an onboardee that helps Obi personalise sessions. You can set context two ways: client-side through the SDK `user` object, or server-side through the [User Context API](/api-reference/introduction).
+</ResponseField>
+
+## How they relate
+
+```
+Onboardee ──runs──> Session ──follows──> Plan
+                       │
+                       └──produces──> Transcript + Summary
+```
+
+An **onboardee** runs a **session**, which follows a **plan**. Each session produces a **summary** (returned inline) and a **transcript** (downloaded separately).

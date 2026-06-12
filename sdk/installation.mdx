@@ -1,0 +1,55 @@
+---
+title: "Installation"
+description: "Add the Obi widget to your app with a single snippet."
+---
+
+The Obi SDK is a small JavaScript snippet. Add it once and the Obi widget loads on every page of your app.
+
+## Prerequisites
+
+- An **SDK API key**. This is provisioned by the Cor team — see [Authentication](/authentication).
+
+## Add the snippet
+
+Paste this into your app's HTML, ideally just before the closing `</body>` tag. You can also add it through a tag manager such as Google Tag Manager.
+
+```html
+<script>
+  // Configure Obi.
+  window.obiWidgetConfig = {
+    apiKey: "your-api-key",
+  };
+
+  // Load Obi.
+  !(function(){"use strict";var t=window;!(function(){var n,o;try{n=new URLSearchParams(location.search),o={},n.forEach((function(t,n){o[n]=t})),Object.keys(o).length&&localStorage.setItem("obi-url-params",JSON.stringify(o))}catch(t){}t.ObiSDK=t.ObiSDK||function(){return t.ObiSDK.q=t.ObiSDK.q||[],t.ObiSDK.q.push(arguments)},t.ObiSDK("update",t.obiWidgetConfig||{}),fetch("https://registry.npmjs.org/obi-sdk/latest").then((function(t){return t.json()})).then((function(t){return t.version})).catch((function(){return"latest"})).then((function(t){var n=document.createElement("script");n.defer=!0,n.src="https://unpkg.com/obi-sdk@"+t+"/dist/obi-sdk.standalone.iife.js",document.head.appendChild(n)}))})()})();
+</script>
+```
+
+## How it loads
+
+The snippet does two things:
+
+1. Sets up a `window.ObiSDK` command queue right away, so calls you make before the widget finishes loading are not lost.
+2. Looks up the latest `obi-sdk` version and loads it from the CDN.
+
+Because of the queue, it is safe to call `window.ObiSDK("update", ...)` immediately after the snippet.
+
+## Allowlist these domains
+
+If your app uses a Content Security Policy, allow these hosts so the widget can load:
+
+| Host | Purpose |
+| --- | --- |
+| `registry.npmjs.org` | Resolve the latest SDK version |
+| `unpkg.com` | Load the SDK bundle |
+| `app.coragents.ai` | Talk to the Cor backend |
+
+## Verify it loaded
+
+Open your browser console and check that the global exists:
+
+```js
+typeof window.ObiSDK; // "function"
+```
+
+By default the widget shows on every page. Next, [tell Obi who the user is](/sdk/identifying-users), and decide [when to show it](/sdk/sessions#start-obi-after-login).

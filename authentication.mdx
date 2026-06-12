@@ -1,0 +1,57 @@
+---
+title: "Authentication"
+description: "Cor uses three kinds of credentials. Here is what each one is for and where to use it."
+---
+
+Cor has three separate credentials. They are not interchangeable — use the right one for each job.
+
+| Credential | Used by | Where it runs | How it is sent |
+| --- | --- | --- | --- |
+| **SDK API key** | Obi widget | Browser (client-side) | `apiKey` in `obiWidgetConfig` |
+| **Reporting token** | Session Reporting API | Your server | `Authorization: Token <token>` |
+| **Onboardee context token** | User Context API | Your server | `Authorization: Token <token>` |
+
+<Warning>
+  The **SDK API key** is public — it ships in your page source, and that is fine. The **reporting** and **context** tokens are secrets. Never put them in client-side code.
+</Warning>
+
+## SDK API key
+
+This key identifies your app to the Obi widget. It is safe to expose in the browser. You pass it when you configure the widget:
+
+```js
+window.obiWidgetConfig = {
+  apiKey: "your-api-key",
+};
+```
+
+See [Installation](/sdk/installation).
+
+## API tokens
+
+The Session Reporting API and the User Context API both use the `Token` scheme. Send the token in the `Authorization` header:
+
+```
+Authorization: Token <your-api-token>
+```
+
+```bash
+curl -s -H "Authorization: Token <your-api-token>" \
+  "https://app.coragents.ai/api/sessions/reporting?limit=5"
+```
+
+<Note>
+  The reporting token and the onboardee-context token may be **different** tokens. If a call returns `401`, confirm you are using the right one for that API. Contact your account manager if you are unsure.
+</Note>
+
+## Getting credentials
+
+All Cor credentials are provisioned by the Cor team. If you do not have a key or token, contact your account manager.
+
+## Base URL
+
+All API requests go to:
+
+```
+https://app.coragents.ai
+```
