@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "Cor",
   "colors": {
-    "primary": "#4F46E5",
-    "light": "#818CF8",
-    "dark": "#4F46E5"
+    "primary": "#000000",
+    "light": "#FFFFFF",
+    "dark": "#000000"
   },
   "favicon": "/favicon.png",
   "logo": {
