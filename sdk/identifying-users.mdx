@@ -52,13 +52,13 @@ type UserType = {
 ```
 
 <Tip>
-  The more recommended fields you send, the less per-customer configuration the agent needs. `email` is especially useful — it is also how the [User Context API](/api-reference/introduction) matches an onboardee.
+  The more recommended fields you send, the less per-customer configuration the agent needs. `email` is especially useful. It is also how the [User Context API](/api-reference/introduction) matches an onboardee.
 </Tip>
 
 ## When to send it
 
-Send it as soon as you know who the customer is — normally right after they sign in. See [Controlling sessions](/sdk/sessions#start-obi-after-login) for the recommended login flow.
+Send it as soon as you know who the customer is, normally right after they sign in. See [Controlling sessions](/sdk/sessions#start-obi-after-login) for the recommended login flow.
 
 ## Server-side context
 
-The `user` object is set in the browser. To attach context from your backend instead — or in addition — use the [User Context API](/api-reference/introduction), which matches the onboardee by email.
+The `user` object is set in the browser. To attach context from your backend instead, or in addition, use the [User Context API](/api-reference/introduction), which matches the onboardee by email.

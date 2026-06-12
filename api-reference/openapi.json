@@ -21,7 +21,7 @@
       "get": {
         "operationId": "listSessions",
         "summary": "List sessions",
-        "description": "Returns a paginated list of sessions with metadata and summary data. Transcript content is **not** included here — use the transcript endpoints to download transcript files.",
+        "description": "Returns a paginated list of sessions with metadata and summary data. Transcript content is **not** included here. Use the transcript endpoints to download transcript files.",
         "tags": ["Session Reporting"],
         "parameters": [
           {
@@ -164,7 +164,7 @@
       "post": {
         "operationId": "batchTranscriptUrls",
         "summary": "Batch transcript download URLs",
-        "description": "Returns presigned download URLs for up to 50 session transcripts in one request. Each URL is valid for 1 hour. Partial failures are reported per session — a failing session does not block the rest of the batch.",
+        "description": "Returns presigned download URLs for up to 50 session transcripts in one request. Each URL is valid for 1 hour. Partial failures are reported per session. A failing session does not block the rest of the batch.",
         "tags": ["Session Reporting"],
         "requestBody": {
           "required": true,
@@ -214,7 +214,7 @@
       "post": {
         "operationId": "pushOnboardeeContext",
         "summary": "Push onboardee context",
-        "description": "Attaches extra context to an onboardee, identified by email. The Obi agent uses this context during the onboardee's sessions for personalisation and targeting. The `context` object is free-form — send any keys you want the agent to know about.\n\nThis endpoint is authenticated with an onboardee-context token, which may be different from your reporting token. Contact your account manager if you are unsure which token to use.",
+        "description": "Attaches extra context to an onboardee, identified by email. The Obi agent uses this context during the onboardee's sessions for personalisation and targeting. The `context` object is free-form. Send any keys you want the agent to know about.\n\nThis endpoint is authenticated with an onboardee-context token, which may be different from your reporting token. Contact your account manager if you are unsure which token to use.",
         "tags": ["User Context"],
         "requestBody": {
           "required": true,

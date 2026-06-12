@@ -14,7 +14,7 @@ Cor has two REST APIs:
   </Card>
 </CardGroup>
 
-Both are server-side APIs. Do not call them from the browser — that would expose your token.
+Both are server-side APIs. Do not call them from the browser. That would expose your token.
 
 ## Base URL
 
@@ -30,7 +30,7 @@ Every request must include an `Authorization` header using the `Token` scheme:
 Authorization: Token <your-api-token>
 ```
 
-Tokens are provisioned by the Cor team. The reporting token and the onboardee-context token may be different — see [Authentication](/authentication).
+Tokens are provisioned by the Cor team. The reporting token and the onboardee-context token may be different. See [Authentication](/authentication).
 
 ```bash
 curl -s -H "Authorization: Token <your-api-token>" \
@@ -38,7 +38,7 @@ curl -s -H "Authorization: Token <your-api-token>" \
 ```
 
 <Tip>
-  In the **playground** on each endpoint page, paste your full header value — including the word `Token` — into the Authorization field.
+  In the **playground** on each endpoint page, paste your full header value (including the word `Token`) into the Authorization field.
 </Tip>
 
 ## Errors

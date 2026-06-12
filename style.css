@@ -1,5 +1,5 @@
 /* Active (highlighted) sidebar item.
-   Mintlify's default gives it bg-primary/10 — the primary color at 10% opacity —
+   Mintlify's default gives it bg-primary/10 (the primary color at 10% opacity),
    which reads as gray. Force a solid, high-contrast highlight instead. */
 
 #sidebar a[aria-current="page"] {

@@ -6,11 +6,11 @@ description: "The handful of terms you need to know to work with Cor."
 Cor uses a small set of words. Learn these and the rest of the docs will read easily.
 
 <ResponseField name="Obi" type="agent">
-  Cor's AI agent. Obi works alongside each customer — it learns their goals, builds a personalized plan, sees their screen to guide them, and executes actions to get things done. In code you will see it as `ObiSDK` and `obiWidgetConfig`.
+  Cor's AI agent. Obi works alongside each customer. It learns their goals, builds a personalized plan, sees their screen to guide them, and executes actions to get things done. In code you will see it as `ObiSDK` and `obiWidgetConfig`.
 </ResponseField>
 
 <ResponseField name="Onboardee" type="person">
-  An end user who is being onboarded — one of your customers. In the SDK you describe an onboardee with the `user` object. In the APIs an onboardee has its own `onboardee_uuid` and is also identified by email.
+  An end user who is being onboarded, one of your customers. In the SDK you describe an onboardee with the `user` object. In the APIs an onboardee has its own `onboardee_uuid` and is also identified by email.
 </ResponseField>
 
 <ResponseField name="Plan" type="flow">
@@ -24,7 +24,7 @@ Cor uses a small set of words. Learn these and the rest of the docs will read ea
 </ResponseField>
 
 <ResponseField name="Transcript" type="file">
-  The full conversation from a session, stored as a JSON file. You do not get the transcript inline — you request a short-lived download URL from the transcript endpoints, then fetch the file. URLs are valid for 1 hour.
+  The full conversation from a session, stored as a JSON file. You do not get the transcript inline. You request a short-lived download URL from the transcript endpoints, then fetch the file. URLs are valid for 1 hour.
 </ResponseField>
 
 <ResponseField name="Context" type="object">
