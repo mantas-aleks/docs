@@ -3,11 +3,11 @@ title: "Controlling sessions"
 description: "Show and hide Obi, open its menu, and start or stop onboarding sessions from your code."
 ---
 
-You can drive the widget from your own UI: show it after login, open its menu from a button, and start or stop specific onboarding plans.
+You can drive the widget from your own UI: show it after login, open its menu from a button, and start or stop specific plans.
 
 ## Start Obi after login
 
-Most apps should start with the widget hidden and turn it on once the user is signed in. Enable it and pass user information in the same call:
+Most apps should start with the widget hidden and turn it on once the customer is signed in. Enable it and pass their information in the same call:
 
 ```js
 // In your login handler
@@ -67,5 +67,5 @@ window.ObiSDK("stopSession");
 ```
 
 <Note>
-  A **plan** is a guided onboarding flow (sometimes called a course). Get plan UUIDs from your Cor dashboard. See [Core concepts](/concepts).
+  A **plan** is a guided flow Obi takes a customer through (sometimes called a course). Get plan UUIDs from Cor Admin. See [Core concepts](/concepts).
 </Note>

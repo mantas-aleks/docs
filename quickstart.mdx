@@ -1,9 +1,9 @@
 ---
 title: "Quickstart"
-description: "Install the Obi widget, identify a user, run a session, and pull your first report."
+description: "Install the Obi widget, identify a customer, run a session, and pull your first report."
 ---
 
-This guide takes you through the whole loop: add the widget, tell it who the user is, start a session, and read the results.
+This guide takes you through the whole loop: add the widget, tell it who the customer is, start a session, and read the results.
 
 <Note>
   You need an **SDK API key** for the widget and an **API token** for the reporting endpoints. Both come from the Cor team — see [Authentication](/authentication).
@@ -25,11 +25,11 @@ Add this snippet to your app's HTML, ideally just before the closing `</body>` t
 </script>
 ```
 
-The widget now loads on every page. We recommend hiding it on your login page — see [User management](/sdk/sessions#start-obi-after-login).
+The widget now loads on every page. We recommend hiding it on your login page — see [Controlling sessions](/sdk/sessions#start-obi-after-login).
 
-## 2. Identify the user
+## 2. Identify the customer
 
-After a user logs in, tell Obi who they are. This drives targeting, personalisation, and reporting.
+After a customer signs in, tell Obi who they are. This drives personalization, targeting, and reporting.
 
 ```js
 window.ObiSDK("update", {
@@ -59,7 +59,7 @@ window.ObiSDK("startSession", {
 
 ## 4. Pull a report
 
-Once a user has run a session, fetch it from the Session Reporting API. This call is server-side and uses your **API token**.
+Once a customer has run a session, fetch it from the Session Reporting API. This call is server-side and uses your **API token**.
 
 ```bash
 curl -s -H "Authorization: Token <your-api-token>" \

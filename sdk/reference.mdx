@@ -15,7 +15,7 @@ Calls are queued, so it is safe to call commands before the widget finishes load
 
 ### `update`
 
-Merge configuration into the widget. Use it to set the user, change visibility, move the widget, or open the menu.
+Merge configuration into the widget. Use it to identify the customer, change visibility, move the widget, or open the menu.
 
 ```js
 window.ObiSDK("update", {
@@ -31,7 +31,7 @@ window.ObiSDK("update", {
 | `isActive` | `boolean` | Show or hide the widget. |
 | `position` | `string` | `bottom-left`, `bottom`, or `bottom-right`. |
 | `showMenu` | `boolean` | Open Obi's menu. |
-| `user` | `object` | User information. See [Identifying users](/sdk/identifying-users). |
+| `user` | `object` | Information about the customer. See [Identifying users](/sdk/identifying-users). |
 
 ### `startSession`
 

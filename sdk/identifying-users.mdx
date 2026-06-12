@@ -1,11 +1,11 @@
 ---
 title: "Identifying users"
-description: "Tell Obi who the signed-in user is, so it can target, personalise, and report."
+description: "Tell Obi who the signed-in customer is, so it can personalize, target, and report."
 ---
 
-Send user information so Obi knows who it is talking to. This powers reporting, segmentation, targeting, and personalisation. Without it, you only get basic session-level reporting.
+Send information about your customer so Obi knows who it is guiding. This powers reporting, segmentation, targeting, and personalization. Without it, you only get basic session-level reporting.
 
-## Send user information
+## Send customer information
 
 Pass a `user` object to the `update` command:
 
@@ -57,7 +57,7 @@ type UserType = {
 
 ## When to send it
 
-Send user information as soon as you know who the user is — normally right after login. See [Controlling sessions](/sdk/sessions#start-obi-after-login) for the recommended login flow.
+Send it as soon as you know who the customer is — normally right after they sign in. See [Controlling sessions](/sdk/sessions#start-obi-after-login) for the recommended login flow.
 
 ## Server-side context
 
