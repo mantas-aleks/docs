@@ -7,10 +7,10 @@
     "light": "#818CF8",
     "dark": "#4F46E5"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.png",
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/cor-logo-black.png",
+    "dark": "/logo/cor-logo-white.png"
   },
   "navigation": {
     "tabs": [
