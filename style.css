@@ -1,0 +1,24 @@
+/* Active (highlighted) sidebar item.
+   Mintlify's default gives it bg-primary/10 — the primary color at 10% opacity —
+   which reads as gray. Force a solid, high-contrast highlight instead. */
+
+#sidebar a[aria-current="page"] {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+#sidebar a[aria-current="page"] svg,
+#sidebar a[aria-current="page"] .sidebar-icon {
+  color: #ffffff !important;
+}
+
+/* Dark mode: invert so the highlight stays visible on the dark background. */
+.dark #sidebar a[aria-current="page"] {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.dark #sidebar a[aria-current="page"] svg,
+.dark #sidebar a[aria-current="page"] .sidebar-icon {
+  color: #000000 !important;
+}
